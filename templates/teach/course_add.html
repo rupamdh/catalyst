@@ -1,0 +1,213 @@
+{% extends 'base_site.html' %}
+{% load teach_tags %}
+
+{% block title %}
+    Add Course | Catalyst
+{% endblock title %}
+    
+
+{% block content %}
+    <div class="rbt-create-course-area bg-color-white rbt-section-gap">
+        <div class="container">
+            <div class="row g-5">
+
+                <div class="col-lg-8">
+                    <form method="post" novalidate="true" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="rbt-accordion-style rbt-accordion-01 rbt-accordion-06 accordion">
+                            <div class="accordion" id="tutionaccordionExamplea1">
+                                
+                                <div class="accordion-item card">
+                                    <h2 class="accordion-header card-header" id="accOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accCollapseOne" aria-expanded="true" aria-controls="accCollapseOne">Course Info</button>
+                                    </h2>
+                                    <div id="accCollapseOne" class="accordion-collapse collapse show" aria-labelledby="accOne" data-bs-parent="#tutionaccordionExamplea1">
+                                        <div class="accordion-body card-body">
+                                            <!-- Start Course Field Wrapper  -->
+                                            <div class="rbt-course-field-wrapper rbt-default-form">
+                                                <div class="course-field mb--15">
+                                                    <label for="{{ form.title.id_for_label  }}">{{ form.title.label }}</label>
+                                                    <small>{{ form.title.errors  }}</small>
+                                                    {{ form.title }}
+                                                    <small class="d-block mt_dec--5"><i class="feather-info"></i> {{ form.title.help_text }} </small>
+                                                </div>
+
+                                                <div class="course-field mb--15">
+                                                    <label for="{{ form.short_desc.id_for_label  }}">{{ form.short_desc.label }}</label>
+                                                    <small>{{ form.short_desc.errors  }}</small>
+                                                    {{ form.short_desc }}
+                                                    <small class="d-block mt_dec--5"><i class="feather-info"></i> {{ form.short_desc.help_text }} </small>
+                                                </div>
+
+                                                <div class="course-field mb--20">
+                                                    <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+                                                    <small>{{ form.category.errors  }}</small>
+                                                    <div class="rbt-modern-select bg-transparent height-45 mb--10">
+                                                        {{ form.category }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="course-field mb--15 edu-bg-gray">
+                                                    <h6>Course Price</h6>
+                                                    <div class="rbt-course-settings-content">
+                                                        <div class="course-field mb--15">
+                                                            <label for="{{ form.price.id_for_label  }}">{{ form.price.label  }} ($)</label>
+                                                            <small>{{ form.price.errors  }}</small>
+                                                            {{ form.price }}
+                                                            <small class="d-block mt_dec--5"><i class="feather-info"></i> Set 0 for free courses</small>
+                                                        </div>
+
+                                                        <div class="course-field mb--15">
+                                                            <label for="{{ form.off_price.id_for_label  }}">{{ form.off_price.label  }} ($)</label>
+                                                            <small>{{ form.off_price.errors  }}</small>
+                                                            {{ form.off_price }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="course-field mb--20">
+                                                    <h6>Course Thumbnail</h6>
+                                                    <div class="rbt-create-course-thumbnail upload-area">
+                                                        <div class="upload-area">
+                                                            <small>{{ form.thumbnail.errors  }}</small>
+                                                            <div class="brows-file-wrapper" data-black-overlay="9">
+                                                                 {{ form.thumbnail }}
+                                                                <img id="createfileImage" src="/static/images/others/thumbnail-placeholder.svg" alt="file image">
+                                                                <!-- our custom upload button -->
+                                                                <label class="d-flex" for="createinputfile" title="No File Choosen">
+                                                                    <i class="feather-upload"></i>
+                                                                    <span class="text-center">Choose a File</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <small><i class="feather-info"></i><b>File Support:</b> JPG, JPEG, PNG, GIF, WEBP</small>
+                                                </div>
+
+                                                <div class="course-field mb--15 edu-bg-gray">
+                                                    <h6>Course Preview Video</h6>
+                                                    <div class="rbt-course-settings-content">
+                                                        <div class="course-field mb--15">
+                                                            <label for="{{ form.preview_video.id_for_label  }}">{{ form.preview_video.label  }}</label>
+                                                            <small>{{ form.preview_video.errors  }}</small>
+                                                            {{ form.preview_video }}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End Course Field Wrapper  -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="mt--10 row g-5">
+                            {% comment %} <div class="col-lg-4">
+                                <a class="rbt-btn hover-icon-reverse bg-primary-opacity w-100 text-center" href="course-details.html">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Preview</span>
+                                    <span class="btn-icon"><i class="feather-eye"></i></span>
+                                    <span class="btn-icon"><i class="feather-eye"></i></span>
+                                    </span>
+                                </a>
+                            </div> {% endcomment %}
+                            <div class="col-lg-12">
+                                <button class="rbt-btn btn-gradient hover-icon-reverse w-100 text-center" type="submit">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Create Course</span>
+                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="rbt-create-course-sidebar course-sidebar sticky-top rbt-shadow-box rbt-gradient-border">
+                        <div class="inner">
+                            <div class="section-title mb--30">
+                                <h4 class="title">Course Upload Tips</h4>
+                            </div>
+                            <div class="rbt-course-upload-tips">
+                                <ul class="rbt-list-style-1">
+                                    <li><i class="feather-check"></i> Set the Course Price option or make it free.
+                                    </li>
+                                    <li><i class="feather-check"></i> Standard size for the course thumbnail is
+                                        700x430.</li>
+                                    <li><i class="feather-check"></i> Video section controls the course overview
+                                        video.</li>
+                                    <li><i class="feather-check"></i> Course Builder is where you create & organize
+                                        a course.</li>
+                                    <li><i class="feather-check"></i> Add Topics in the Course Builder section to
+                                        create lessons, quizzes, and assignments.</li>
+                                    <li><i class="feather-check"></i> Prerequisites refers to the fundamental
+                                        courses to complete before taking this particular course.</li>
+                                    <li><i class="feather-check"></i> Information from the Additional Data section
+                                        shows up on the course single page.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Modal Area  -->
+    <div class="rbt-default-modal modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="feather-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="inner rbt-default-form">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5 class="modal-title mb--20" id="exampleModalLabel">Add Topic</h5>
+                                <div class="course-field mb--20">
+                                    <label for="modal-field-1">Topic Name</label>
+                                    <input id="modal-field-1" type="text">
+                                    <small><i class="feather-info"></i> Topic titles are displayed publicly wherever required. Each topic may contain one or more lessons, quiz and assignments.</small>
+                                </div>
+                                <div class="course-field mb--20">
+                                    <label for="modal-field-2">Topic Summary</label>
+                                    <textarea id="modal-field-2"></textarea>
+                                    <small><i class="feather-info"></i> Add a summary of short text to prepare students for the activities for the topic. The text is shown on the course page beside the tooltip beside the topic name.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-circle-shape"></div>
+                <div class="modal-footer pt--30">
+                    <button type="button" class="rbt-btn btn-border btn-md radius-round-10" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Area  -->
+
+
+    <div class="rbt-separator-mid">
+        <div class="container">
+            <hr class="rbt-separator m-0">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            console.log('Ready')
+            
+
+        });
+    </script>
+{% endblock content %}

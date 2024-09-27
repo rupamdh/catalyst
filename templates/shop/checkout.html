@@ -1,0 +1,99 @@
+{% extends 'base_site.html' %}
+
+
+{% block content %}
+    <!-- Start breadcrumb Area -->
+<div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-inner text-center">
+                    <h2 class="title">Checkout</h2>
+                    <ul class="page-list">
+                        <li class="rbt-breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li>
+                            <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                        </li>
+                        <li class="rbt-breadcrumb-item active">Checkout</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumb Area -->
+
+<div class="checkout_area bg-color-white rbt-section-gap">
+    <div class="container">
+        <form method="POST" action="{% url 'preoceed_checkout' %}">
+            {% csrf_token %}
+            <div class="row g-5 checkout-form">
+                <div class="col-lg-7">
+                    <div class="checkout-content-wrapper">
+                        <div id="billing-form">
+                            <h4 class="checkout-title">Billing Address</h4>
+                            <div class="col-md-12 col-12 mb--20">
+                                <label>Country*</label>
+                                <div class="rbt-modern-select bg-transparent height-45">
+                                    <select class="w-100" name="country" required>
+                                        <option value="India">India</option>
+                                        <option value="USA">USA</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="col-12 mb--60 mt-5">
+                        <div class="checkout-payment-method">
+                            <h4 class="checkout-title">Payment Method</h4>
+                            <div class="single-method">
+                                <input type="radio" id="stripe" name="payment_method" value="stripe" required>
+                                <label for="stripe">Stripe</label>
+                                <!-- <p data-method="check">Please send a Check to Store name with
+                                    Store Street, Store Town, Store State, Store Postcode,
+                                    Store Country.</p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-5">
+                    <div class="row pl--50 pl_md--0 pl_sm--0">
+                        <!-- Cart Total -->
+                        <div class="col-12 mb--60">
+
+                            <div class="checkout-cart-total">
+                                <h4>Order Summury</h4>
+                                <ul>
+                                    <li>Original Price: <span>$ {{ total_original_price }}</span></li>
+                                    
+                                    {% if total_discount > 0 %}
+                                        <li>Discounts<span>- $ {{ total_discount }}</span></li>
+                                    {% endif %}
+                                </ul>
+
+                                <h4 class="mt--30">Grand Total <span>${{ total_price }}</span></h4>
+
+                            </div>
+
+                            <div class="plceholder-button mt--50">
+                                <button class="rbt-btn btn-gradient hover-icon-reverse" type="submit">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Place order</span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+    
+

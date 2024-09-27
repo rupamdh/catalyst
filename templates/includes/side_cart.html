@@ -1,0 +1,62 @@
+<div class="inner-wrapper">
+    <div class="inner-top">
+        <div class="content">
+            <div class="title">
+                <h4 class="title mb--0">Your shopping cart</h4>
+            </div>
+            <div class="rbt-btn-close" id="btn_sideNavClose">
+                <button class="minicart-close-button rbt-round-btn"><i class="feather-x"></i></button>
+            </div>
+        </div>
+    </div>
+
+    
+    {% if carts %}
+        <nav class="side-nav w-100">
+            <ul class="rbt-minicart-wrapper">
+                {% for cart in carts %}
+                    <li class="minicart-item">
+                        <div class="thumbnail">
+                            <a href="{% url 'course_details' cart.course.slug %}">
+                                <img src="{{ cart.course.thumbnail.url }}" alt="{{ cart.course.title }}">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <h6 class="title"><a href="{% url 'course_details' cart.course.slug %}">{{ cart.course.title }}</a></h6>
+
+                            <span class="quantity"><span class="price">$ {{ cart.course.get_price }}</span></span>
+                        </div>
+                        <div class="close-btn">
+                            <button class="rbt-round-btn remove-side-cart" data-id="{{cart.id}}" title="Remove"><i class="feather-trash-2"></i></button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <div class="rbt-minicart-footer">
+            <hr class="mb--0">
+            <div class="rbt-cart-subttotal">
+                <p class="subtotal"><strong>Subtotal:</strong></p>
+                <p class="price">$ {{ total_price }}</p>
+            </div>
+            <hr class="mb--0">
+            <div class="rbt-minicart-bottom mt--20">
+                <div class="view-cart-btn">
+                    <a class="rbt-btn btn-border icon-hover w-100 text-center" href="{% url 'cart' %}">
+                        <span class="btn-text">View Cart</span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                    </a>
+                </div>
+                <div class="checkout-btn mt--20">
+                    <a class="rbt-btn btn-gradient icon-hover w-100 text-center" href="{% url 'checkout' %}">
+                        <span class="btn-text">Checkout</span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>        
+    {% endif %}
+        
+</div>
+

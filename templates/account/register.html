@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register | Catalyst
+{% endblock title %}
+
+{% block content %}
+    <div class="rbt-elements-area bg-color-white rbt-section-gap">
+        <div class="container">
+            <div class="row gy-5 row--30 justify-content-center">
+                <div class="col-lg-6">
+                    <div class="rbt-contact-form contact-form-style-1 max-width-auto">
+                        <h3 class="title">Register</h3>
+                        {{ from.error }}
+                        <form class="max-width-auto" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <!-- {{ form }} -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.first_name }}
+                                        <label>First Name *</label>
+                                        <span class="focus-border"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {{ form.last_name }}
+                                        <label>Last Name *</label>
+                                        <span class="focus-border"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                {{ form.email }}
+                                <label>Email address *</label>
+                                <span class="focus-border"></span>
+                                <span class="text-danger">{{ form.email.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.password1 }}
+                                <label>Password *</label>
+                                <span class="focus-border"></span>
+                                {{ form.password1.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.password2 }}
+                                <label>Confirm Password *</label>
+                                <span class="focus-border"></span>
+                                {{ form.password2.errors }}
+                            </div>
+
+                            <div class="form-submit-group">
+                                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Register</span>
+                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    </span>
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

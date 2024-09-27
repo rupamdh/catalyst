@@ -1,0 +1,59 @@
+<div class="rbt-dashboard-content-wrapper">
+    <div class="tutor-bg-photo bg_image bg_image--22 height-350"></div>
+    <!-- Start Tutor Information  -->
+    <div class="rbt-tutor-information">
+        <div class="rbt-tutor-information-left">
+            <div class="thumbnail rbt-avatars size-lg">
+                <form method="post" enctype="multipart/form-data" novalidate="true" id="profile_form">
+                    {% csrf_token %}
+                    {{ pro_img_form.profile_image }}
+                    <label for="{{ pro_img_form.profile_image.id_for_label }}"><i class="fas fa-camera"></i></label>
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="{{ user.full_name }}">
+                    {% else %}
+                        <img src="/static/images/team/avatar.jpg" alt="Instructor">
+                    {% endif %}
+                    <small>{{ pro_img_form.profile_image.errors }}</small>
+                </form>
+            </div>
+            <div class="tutor-content">
+                <h5 class="title">{{ user.full_name }}</h5>
+                <div class="rbt-review">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="rating-count"> (15 Reviews)</span>
+                </div>
+            </div>
+        </div>
+        <div class="rbt-tutor-information-right">
+            <div class="tutor-btn">
+                
+                {% if user.role == 'E' %}
+                    <a class="rbt-btn btn-md hover-icon-reverse" href="{% url 'course_add' %}">
+                        <span class="icon-reverse-wrapper">
+                        <span class="btn-text">Create a New Course</span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        </span>
+                    </a>
+                {% else %}
+                    <a class="rbt-btn btn-md hover-icon-reverse" href="#">
+                        <span class="icon-reverse-wrapper">
+                        <span class="btn-text">Become an Educator</span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        </span>
+                    </a>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </div>
+    <!-- End Tutor Information  -->
+    </div>

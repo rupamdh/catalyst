@@ -1,0 +1,140 @@
+{% extends 'base_site.html' %}
+
+{% block title %}
+    Cart | Catalyst
+{% endblock title %}
+
+
+{% block content %}
+     <!-- Start breadcrumb Area -->
+    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner text-center">
+                        <h2 class="title">Cart</h2>
+                        <ul class="page-list">
+                            <li class="rbt-breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                            <li>
+                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                            </li>
+                            <li class="rbt-breadcrumb-item active">Cart</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumb Area -->
+
+    <div class="rbt-cart-area bg-color-white rbt-section-gap">
+        <div class="cart_area">
+            <div class="container">
+                {% if carts %}
+                    <div class="row g-5">
+                        <div class="col-md-8">
+                            <!-- Cart Table -->
+                            <div class="cart-table table-responsive mb--60">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="pro-title">Product</th>
+                                            <th class="pro-price">Price</th>
+                                            <th class="pro-remove">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for cart in carts %}
+                                            <tr id="row-{{cart.id}}">
+                                                <td class="pro-title text-left">
+                                                    <a href="#" class="d-flex cart-thumb">
+                                                        <img src="{{ cart.course.thumbnail.url }}" alt="Product">
+                                                        <p>{{ cart.course.title }}</p>
+                                                    </a>
+                                                </td>
+                                                <td class="pro-price"><span>${{ cart.course.get_price }}</span></td>
+                                                <td class="pro-remove">
+                                                    <a href="#" class="remove-cart" data-id="{{ cart.id }}"><i class="feather-trash-2"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="cart-summary">
+                                <div class="cart-summary-wrap">
+                                    <div class="section-title text-start">
+                                        <h4 class="title">Cart Summary</h4>
+                                    </div>
+                                    <p>Total <span>${{ total_original_price }}</span></p>
+                                    <p>Discount <span>-${{ total_discount }}</span></p>
+                                    <h2>Grand Total <span>${{ total_price }}</span></h2>
+                                </div>
+
+                                <div class="cart-submit-btn-group">
+                                    <div class="single-button w-100 text-center">
+                                        <a href="{% url 'checkout' %}" class="rbt-btn btn-gradient rbt-switch-btn rbt-switch-y w-100">
+                                            <span data-text="Proceed to Checkout">Proceed to Checkout</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <h2>Your cart is empty</h2>
+                        <a href="{% url 'courses' %}" class="rbt-btn btn-gradient icon-hover text-center">
+                            <span class="btn-text">Browse Courses</span> 
+                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+
+
+{% block js %}
+    <script>
+        $(document).ready(function () { 
+            function updateCart() {
+                $.ajax({
+                    url: '/get-side-cart/',
+                    type: 'GET',
+                    success: function (response) {
+                        $('#side_cart').html(response.html);
+                        $('#cart-count').text(response.total_item);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating cart:', error);
+                    }
+                });
+            }
+            $('.remove-cart').click(function(e){
+                e.preventDefault()
+                var id = $(this).data('id');
+                var button = $(this);
+                $.ajax({
+                    url: '{% url "remove_from_cart" %}',
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken' : '{{ csrf_token }}',
+                        'id' : id
+                    },
+                    success: function (response) {  
+                        console.log(response);
+                        $('#row-'+id).remove();
+                        updateCart();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock js %}
+    
