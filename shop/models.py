@@ -22,6 +22,8 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_user')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_course')
     status = models.CharField(max_length=2, choices=STATUS_CHOICE)
+    payment_method = models.CharField(max_length=50, null=True)
+    transaction_id = models.CharField(max_length=200, null=True)
     
 
     class Meta:

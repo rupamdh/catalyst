@@ -72,6 +72,12 @@ class Course(models.Model):
         cart = Cart.objects.filter(user=request.user, course=self).exists()
         return cart
     
+    def is_in_order(self, request):
+        from shop.models import Order
+        order = Order.objects.filter(user=request.user, course=self).exists()
+        return order
+
+
     def __str__(self):
         return self.title
     

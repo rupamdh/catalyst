@@ -10,6 +10,7 @@ from .utils import get_total_cart_price, get_total_original_price, get_cart_ids
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 import stripe
 
@@ -59,6 +60,15 @@ def get_side_cart(request):
     html = render_to_string('includes/side_cart.html', {'carts' : carts, 'total_price' : total_price, 'total_item':total_item})
     return JsonResponse({'html' : html, 'total_item':total_item})
 
+def buy_now(request, slug):
+    course = Course.objects.get(slug=slug)
+    if 'buy_now_id' not in request.session:
+        request.session['buy_now_id'] = course.id
+    return redirect('checkout')
+
+
+    
+
 @login_required
 def checkout(request):
     carts = Cart.objects.filter(user=request.user)
@@ -75,66 +85,57 @@ def checkout(request):
     }
     return render(request, 'shop/checkout.html', context)
 
+@login_required
 def preoceed_checkout(request):
     total_price = get_total_cart_price(request)
-    cart_ids = get_cart_ids(request) 
-
+    cart_ids = get_cart_ids(request)
     if request.method == 'POST':
-        payment_method = request.POST['payment_method']
-
-        ##Process Stripe Payment Method
-        if payment_method == 'stripe':
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[
-                    {
-                        'price_data' : {
-                            'currency' : 'usd',
-                            'unit_amount' : total_price * 100,
-                            'product_data' :{
-                                'name' : 'Catalyst Course',
-                                'description' : 'Buy course'
-                            }
-                        },
-                        'quantity' : 1
-                    }
-                ],
-                metadata = {
-                    'cart_ids': ','.join(map(str, cart_ids)),
-                    'user_id': request.user.id,
-                },
-                mode='payment',
-                success_url = request.build_absolute_uri('/success/'),
-                cancel_url = request.build_absolute_uri('/')
+        data = json.loads(request.body)
+        token = data.get('token')
+        try:
+            charge = stripe.Charge.create(
+                amount=total_price*100,
+                currency='usd',
+                source=token,
+                description='Test Charge'
             )
-            return redirect(checkout_session.url)
+            if charge['status'] == 'succeeded':
+                user = request.user
+                if 'buy_now_id' in request.session: 
+                    Order.objects.create(user=user, course=Course.objects.get(id=request.session['buy_now_id']), payment_method='Card', transaction_id=charge['id'])
+                    del request.session['buy_now_id']
+                    return redirect('success')
+                else:
+                    carts = Cart.objects.filter(id__in=cart_ids)
+                    order_records = [Order(user=user, course=cart.course, status='CM', payment_method='Card', transaction_id=charge['id']) for cart in carts]
+                    Order.objects.bulk_create(order_records)
+                    carts.delete()
+                    return redirect('success')
+
+            return JsonResponse({'success': True})
+        except stripe.error.StripeError as e:
+            return JsonResponse({'success': False, 'error' : str(e)})
+    else:
+        print('Not post')
+    return HttpResponse('hello')
+        
+
+        
+        
 
 
 
-@csrf_exempt
-def payment_confirmation(request):
-    payload = request.body
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
-    sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
-    event = None
-    try:
-        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
-    except ValueError as e:
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        return HttpResponse(status=400)
-    if event['type'] == 'checkout.session.completed':
-        session = event["data"]["object"]
-        cart_ids = session['metadata']['cart_ids'].split(',')
-        user_id = session['metadata']['user_id']
-        user = User.objects.get(id=user_id)
-        carts = Cart.objects.filter(id__in=cart_ids)
-        order_records = [Order(user=user, course=cart.course, status='CM') for cart in carts]
-        print(order_records)
-        Order.objects.bulk_create(order_records)
-        carts.delete()
-    return HttpResponse(status=200)
 
 
 def order_complete(request):
     return render(request, 'shop/order_complete.html')
+
+@login_required
+def enrolled_courses(request):
+    orders = Order.objects.filter(user=request.user)
+
+    context = {
+        'orders' : orders
+    }
+    return render(request, 'shop/enrolled_courses.html', context)
+

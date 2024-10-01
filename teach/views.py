@@ -33,11 +33,13 @@ def course_listing(request):
 def course_details(request, slug):
     course = get_object_or_404(Course, slug=slug)
     is_in_cart = course.is_in_cart(request)
+    is_in_order = course.is_in_order(request)
 
 
     context = {
         'course' : course,
-        'is_in_cart' : is_in_cart
+        'is_in_cart' : is_in_cart,
+        'is_in_order' : is_in_order
     }
     return render(request, 'teach/course_details.html', context)
 

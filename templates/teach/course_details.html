@@ -79,7 +79,6 @@
     <div class="rbt-course-details-area ptb--60">
         <div class="container">
             <div class="row g-5">
-
                 <div class="col-lg-8">
                     <div class="course-details-content">
                         <div class="rbt-course-feature-box rbt-shadow-box thuumbnail">
@@ -1119,27 +1118,33 @@
                                         <span class="rbt-badge color-danger bg-color-danger-opacity"><i class="feather-clock"></i> 3 days left!</span>
                                     </div>
                                 </div>
+                                
+                                {% if is_in_order %}
+                                    <a href="#">View Course</a>
+                                {% else %}
+                                    <div class="add-to-card-button mt--15">
+                                        {% if is_in_cart %}
+                                            <button class="rbt-btn btn-gradient icon-hover w-100 d-block text-center" disabled>
+                                                <span class="btn-text">Added to Cart <i class="feather-check"></i></span>
+                                                <!-- <span class="btn-icon"><i class="feather-arrow-right"></i></span> -->
+                                            </button>
+                                        {% else %}
+                                            <button data-id="{{ course.id }}" class="add-to-cart rbt-btn btn-gradient icon-hover w-100 d-block text-center">
+                                                <span class="btn-text">Add to Cart</span>
+                                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                            </button>
+                                        {% endif %}
+                                    </div>
 
-                                <div class="add-to-card-button mt--15">
-                                    {% if is_in_cart %}
-                                        <button class="rbt-btn btn-gradient icon-hover w-100 d-block text-center" disabled>
-                                            <span class="btn-text">Added to Cart <i class="feather-check"></i></span>
-                                            <!-- <span class="btn-icon"><i class="feather-arrow-right"></i></span> -->
-                                        </button>
-                                    {% else %}
-                                        <button data-id="{{ course.id }}" class="add-to-cart rbt-btn btn-gradient icon-hover w-100 d-block text-center">
-                                            <span class="btn-text">Add to Cart</span>
+                                    <div class="buy-now-btn mt--15">
+                                        <a class="rbt-btn btn-border icon-hover w-100 d-block text-center" href="{% url 'buy_now' course.slug %}">
+                                            <span class="btn-text">Buy Now</span>
                                             <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                        </button>
-                                    {% endif %}
-                                </div>
-
-                                <div class="buy-now-btn mt--15">
-                                    <a class="rbt-btn btn-border icon-hover w-100 d-block text-center" href="#">
-                                        <span class="btn-text">Buy Now</span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    </a>
-                                </div>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                                    
+                                
 
                                 <span class="subtitle"><i class="feather-rotate-ccw"></i> 30-Day Money-Back
                                     Guarantee</span>
