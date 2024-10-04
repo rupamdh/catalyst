@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Course
 from .utils import create_pagination
-from .forms import CourseAddForm
+from .forms import CourseAddForm, LessonAddForm
 from account.forms import ProfileImageChangeForm
 from django.templatetags.static import static
 import cv2
@@ -86,12 +86,15 @@ def course_edit(request, slug):
         if form.is_valid():
             form.save()
             return redirect('my_courses')
+        lesson_form = LessonAddForm(request.POST)
+
     else:
         form = CourseAddForm(instance=course)
-
+        lesson_form = LessonAddForm()
     context = {
         'course' : course,
-        'form' : form
+        'form' : form,
+        'lesson_form' : lesson_form
     }
     return render(request, 'teach/course_edit.html', context)
 
@@ -104,3 +107,13 @@ def my_courses(request):
         'my_courses' : my_courses
     }
     return render(request, 'teach/my_courses.html', context)
+
+
+@login_required
+def learn(request, slug):
+    course = get_object_or_404(Course, slug=slug)
+
+    context = {
+        'course' : course
+    }
+    return render(request, 'teach/learn.html', context)

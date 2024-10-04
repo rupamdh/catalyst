@@ -91,15 +91,14 @@
                     type: 'GET',
                     success: function (response) {
                         $('#side_cart').html(response.html);
-                        console.log(response.html)
                         $('#cart-count').text(response.total_item);
-                        console.log(response.total_item);
                     },
                     error: function (xhr, status, error) {
                         console.error('Error updating cart:', error);
                     }
                 });
             }
+            updateCart();
 
             $(document).on('click', '.remove-side-cart', function(e){
                 e.preventDefault();
@@ -114,7 +113,6 @@
                     },
                     success: function (response) {  
                         updateCart();
-
                     }
                 });
             });

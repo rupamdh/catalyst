@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import Course
+from .models import Course, Lesson
 import cv2
 
 class CourseAddForm(forms.ModelForm):
@@ -64,3 +64,8 @@ class CourseAddForm(forms.ModelForm):
                 self.fields['price'].widget.attrs.update({'class' : 'field-error'})
 
 
+
+class LessonAddForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ('title', 'desc')

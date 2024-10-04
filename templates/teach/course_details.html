@@ -1256,11 +1256,16 @@
                         'id' : id
                     },
                     success: function (response) { 
-                        button.removeClass('add-to-cart');
-                        button.attr('disabled', true);
-                        button.find('.btn-text').html('Added to Cart <i class="feather-check"></i>');
-                        $('#cart-count').text(response.cart_count);
-                        updateCart();
+                        if(response.success == true){
+                            button.removeClass('add-to-cart');
+                            button.attr('disabled', true);
+                            button.find('.btn-text').html('Added to Cart <i class="feather-check"></i>');
+                            $('#cart-count').text(response.cart_count);
+                            updateCart();
+                        } else{
+                            console.log('Not added');
+                        }
+                        
                     }
                 })
             });

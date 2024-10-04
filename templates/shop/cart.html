@@ -30,7 +30,7 @@
     <div class="rbt-cart-area bg-color-white rbt-section-gap">
         <div class="cart_area">
             <div class="container">
-                {% if carts %}
+                {% if courses %}
                     <div class="row g-5">
                         <div class="col-md-8">
                             <!-- Cart Table -->
@@ -44,17 +44,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for cart in carts %}
-                                            <tr id="row-{{cart.id}}">
+                                        {% for course in courses %}
+                                            <tr id="row-{{course.id}}">
                                                 <td class="pro-title text-left">
                                                     <a href="#" class="d-flex cart-thumb">
-                                                        <img src="{{ cart.course.thumbnail.url }}" alt="Product">
-                                                        <p>{{ cart.course.title }}</p>
+                                                        <img src="{{ course.thumbnail.url }}" alt="Product">
+                                                        <p>{{ course.title }}</p>
                                                     </a>
                                                 </td>
-                                                <td class="pro-price"><span>${{ cart.course.get_price }}</span></td>
+                                                <td class="pro-price"><span>${{ course.get_price }}</span></td>
                                                 <td class="pro-remove">
-                                                    <a href="#" class="remove-cart" data-id="{{ cart.id }}"><i class="feather-trash-2"></i></a>
+                                                    <a href="#" class="remove-cart" data-id="{{ course.id }}"><i class="feather-trash-2"></i></a>
                                                 </td>
                                             </tr>
                                         {% endfor %}

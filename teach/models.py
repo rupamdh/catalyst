@@ -69,15 +69,35 @@ class Course(models.Model):
     
     def is_in_cart(self, request):
         from shop.models import Cart
-        cart = Cart.objects.filter(user=request.user, course=self).exists()
-        return cart
+        if request.user.is_authenticated:
+            cart = Cart.objects.filter(user=request.user, course=self).exists()
+            return cart
+        else:
+            if 'cart' in request.session:
+                courses = request.session['cart']
+                return True if self.id in courses else False
+            else:
+                return False
     
     def is_in_order(self, request):
         from shop.models import Order
-        order = Order.objects.filter(user=request.user, course=self).exists()
-        return order
+        if request.user.is_authenticated:
+            order = Order.objects.filter(user=request.user, course=self).exists()
+            return order
+        else:
+            return False
 
 
     def __str__(self):
         return self.title
+
+
+class Lesson(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_course')
+    title = models.CharField(max_length=500)
+    desc = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.course} - {self.title}'
+    
     

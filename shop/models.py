@@ -31,3 +31,17 @@ class Order(models.Model):
     
     def __str__(self):
         return f'{self.user} - {self.course}'
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_user')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='review_course')
+    rating = models.FloatField()
+    text = models.TextField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('user', 'course', )
+    
+    def __str__(self):
+        return f'{self.user} - {self.course} - {self.rating}'
+    
+    

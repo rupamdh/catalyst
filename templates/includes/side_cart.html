@@ -11,23 +11,23 @@
     </div>
 
     
-    {% if carts %}
+    {% if courses %}
         <nav class="side-nav w-100">
             <ul class="rbt-minicart-wrapper">
-                {% for cart in carts %}
+                {% for course in courses %}
                     <li class="minicart-item">
                         <div class="thumbnail">
-                            <a href="{% url 'course_details' cart.course.slug %}">
-                                <img src="{{ cart.course.thumbnail.url }}" alt="{{ cart.course.title }}">
+                            <a href="{% url 'course_details' course.slug %}">
+                                <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}">
                             </a>
                         </div>
                         <div class="product-content">
-                            <h6 class="title"><a href="{% url 'course_details' cart.course.slug %}">{{ cart.course.title }}</a></h6>
+                            <h6 class="title"><a href="{% url 'course_details' course.slug %}">{{ course.title }}</a></h6>
 
-                            <span class="quantity"><span class="price">$ {{ cart.course.get_price }}</span></span>
+                            <span class="quantity"><span class="price">$ {{ course.get_price }}</span></span>
                         </div>
                         <div class="close-btn">
-                            <button class="rbt-round-btn remove-side-cart" data-id="{{cart.id}}" title="Remove"><i class="feather-trash-2"></i></button>
+                            <button class="rbt-round-btn remove-side-cart" data-id="{{course.id}}" title="Remove"><i class="feather-trash-2"></i></button>
                         </div>
                     </li>
                 {% endfor %}

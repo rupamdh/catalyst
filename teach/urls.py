@@ -10,4 +10,5 @@ urlpatterns = [
     path('course/edit/<str:slug>/', course_edit, name='course_edit'),
 
     path('my-courses/', my_courses, name='my_courses'),
+    path('learn/<str:slug>/', learn, name='learn'),
 ]

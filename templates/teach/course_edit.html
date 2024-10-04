@@ -170,9 +170,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="feather-x"></i>
-                    </button>
+                    <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close"><i class="feather-x"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="inner rbt-default-form">
@@ -180,13 +178,13 @@
                             <div class="col-lg-12">
                                 <h5 class="modal-title mb--20" id="exampleModalLabel">Add Topic</h5>
                                 <div class="course-field mb--20">
-                                    <label for="modal-field-1">Topic Name</label>
-                                    <input id="modal-field-1" type="text">
+                                    <label for="{{ lesson_form.title.id_for_label }}">Topic Name</label>
+                                    {{ lesson_form.title }}
                                     <small><i class="feather-info"></i> Topic titles are displayed publicly wherever required. Each topic may contain one or more lessons, quiz and assignments.</small>
                                 </div>
                                 <div class="course-field mb--20">
-                                    <label for="modal-field-2">Topic Summary</label>
-                                    <textarea id="modal-field-2"></textarea>
+                                    <label for="{{ lesson_form.desc.id_for_label }}">Topic Summary</label>
+                                    {{ lesson_form.desc }}
                                     <small><i class="feather-info"></i> Add a summary of short text to prepare students for the activities for the topic. The text is shown on the course page beside the tooltip beside the topic name.</small>
                                 </div>
                             </div>
